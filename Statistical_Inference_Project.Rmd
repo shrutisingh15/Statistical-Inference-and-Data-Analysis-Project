@@ -1,0 +1,325 @@
+---
+title: Observational study on relationship between reading newspaper and opinion on
+  social security spending
+author: "Shruti Singh"
+date: "Nov 2,2015"
+output:
+  html_document:
+    theme: cerulean
+  pdf_document: default
+---
+
+<!-- For more info on RMarkdown see http://rmarkdown.rstudio.com/ -->
+
+<!-- Enter the code required to load your data in the space below. The data will be loaded but the line of code won't show up in your write up (echo=FALSE) in order to save space-->
+```{r echo=FALSE}
+load(url("http://bit.ly/dasi_gss_data"))
+```
+
+<!-- In the remainder of the document, add R code chunks as needed -->
+
+### Introduction:
+
+
+####Research question: 
+
+Is there a relationship between how often do the respondents read newspaper(news) and their opinion on spending on social security(natsoc) in American Society for the time period of 1972-2012 ??
+
+
+By this research question,I intend to analyse and explain the trend in attitudes and behaviors of Americans and their perspective towards the structure and functioning of their society.I wish to observe whether Americans have knowledge of the functioning of their society and government as they frame any opinion on national spending.
+
+
+This research question is an observational study on relationship between national spending priorities and media exposure,aiming to analyse whether Americans have awareness about the structure and functioning of their society as they frame their opinion on the national spending on social security.
+
+### Data:
+
+
+####Data Collection:
+
+The General Social Surveys (GSS) were designed as part of a data diffusion project in 1972. The GSS replicated questionnaire items and wording in order to facilitate time-trend studies. The latest survey, GSS 2012, includes a cumulative file that merges all 29 General Social Surveys into a single file containing data from 1972 to 2012.
+
+Since 1972, the General Social Survey (GSS) has been monitoring societal change and studying the growing complexity of American society. The GSS gathers data on contemporary American society in order to monitor and explain trends and constants in attitudes, behaviors, and attributes; to examine the structure and functioning of society in general as well as the role played by relevant subgroups; to compare the United States to other societies in order to place American society in comparative perspective and develop cross-national models of human society; and to make high-quality data easily accessible to scholars, students, policy makers, and others, with minimal cost and waiting.
+
+GSS questions cover a diverse range of issues including national spending priorities, marijuana use, crime and punishment, race relations, quality of life, confidence in institutions, and sexual behavior.
+
+The  General Social Survey (GSS) Cumulative File 1972-2012 provides a sample of selected indicators in the GSS with the goal of providing a convenient data resource for students learning statistical reasoning using the R language. Unlike the full General Social Survey Cumulative File,missing values have been removed from the responses and factor variables have been created when appropriate to facilitate analysis using R.Other than the two modifications mentioned above, all data and coding come from the original dataset .
+
+
+
+####Cases: 
+
+
+I want to study the relationship between "news" (variable1) and natsoc(variable2).In that context, I have subsetted the two columns news and natsoc from the gss dataset by the following line of code.
+
+
+```{r}
+data<-subset(gss,select=c(news,natsoc))
+```
+
+
+After subsetting the two columns under study, the rows with missing values have been removed and hence the finaldata contains only good cases without any missing values by the following lines of code.
+
+
+```{r}
+good<-complete.cases(data)
+finaldata<-data[good,]
+```
+
+Hence the finaldata to study the relationship contains 23999 cases or observations for news and natsoc columns.
+
+
+####Variables: 
+
+
+* **news** : How often does the respondent read newspaper ?
+     + Data type : categorical variable (levels : Everyday,Few times a week, Once a week, Less than a week, Never)
+
+* **natsoc** : Opinion of respondent on spending on social security.
+     + Data type : categorical variable(levels : Too little, About Right, Too much)
+     
+
+####Study: 
+
+
+It is a retrospective observational study as the data was collected in the sociological survey (General Social Survey in 1972-2012).Since the data was collected in the past we are merely observing the data and do not interfere directly with how did the data arise.
+
+An association between the two variables (news and natsoc) will be studied in this observational study.
+
+
+####Scope of inference- generalizability: 
+
+
+Since the data for the study comes from a sociological survey on demographic characteristics and attitudes of residents of United Sates.So,the population of interest is the residents of United States.
+
+However the findings of the study can't be generalized to the entire population, as the data may not be representative of entire population of United States.This is due to the fact that not all respondents answered all questions in all years,leading to a non response bias.Hence,it is unclear whether the data is representative of entire population.
+
+
+
+####Scope of inference - Causality: 
+
+
+Since it is an observational study, we cannot study causal relationships.Causal connections are studied in randomized experimental designs.In observational study we merely observe the data and study association between two or more variables.
+
+
+
+### Exploratory data analysis:
+
+
+The required data for this study can be extracted by subsetting the "news" and "natsoc" columns from gss data set :
+
+```{r}
+data<-subset(gss,select=c("news","natsoc"))
+```
+
+Since the above dataset "data" contains missing values,process the dataset to contain good values and store the values in a new dataset "finaldata" :
+
+```{r}
+good<-complete.cases(data)
+finaldata<-data[good,]
+```
+
+The structure and summary statitics of the "finaldata" dataset can be viewed as:
+
+```{r}
+str(finaldata)
+summary(finaldata)
+```
+
+
+As visible by the above summary statistics the levels of the two columns are
+
+* $ news : 5 levels "Everyday","Few Times A Week","Once A Week","Less Than Once Week","Never"
+* $ natsoc : 3 levels "Too Little","About Right","Too much"
+
+The contigency table for the two categorical variables can be viewed as :
+
+
+```{r}
+graphdata<-table(finaldata$news,finaldata$natsoc)
+graphdata
+```
+
+
+The following mosaicplot depicts the graphical visualization of the relationship between the "news" and "natsoc" variables
+
+```{r}
+mosaicplot(graphdata,xlab="News",ylab="Natsoc",main ="News vs Natsoc",border="red")
+```
+
+
+The above mosaicplot is the visual representation of the analysis on relationship between how often do respondents read news paper and their opinion on national spending on social security.
+
+* **Exploratory variable**: news 
+* **Response variable**: natsoc
+
+We can observe that the width of the blocks for reading newspaper everyday is the maximum across all levels of natsoc variable("Too Little","About Right" and "Too much").This gives us an idea about the awareness through reading newspaper has an impact on the perspective Americans have towards national spending on social security.However,we cannot deduce any causality as we are doing an observational study and there might be other factors as well effecting their opinion.
+
+### Inference:
+
+
+####State Hypothesis:
+
+To analyse if there is any relationship between how often do the respondents read newspaper and their opinion on national spending on social security, the following set of hypotheses can be applied to them :
+
+**Ho(Null Hypothesis)** : There is nothing going on.Reading newspaper(media exposure) and opinion on national spending on social security are independent.There is no relation between news and natsoc variables.
+
+**HA(Alternate Hypothesis)** : Reading newspaper(news) and opinion on national spending on social security(natsoc) are dependent.The data provides convincing evidence for their relation(dependence).
+
+
+####Checking conditions:
+
+* **Independence** : Sampled observations are independent of each other.
+       + The data has been randomly sampled for the study.
+       + If sampling without replacement, sample size n < 10% of population.
+       + Each case only contributes to one cell in the table
+* **Sample Size** :Each particular scenario(i.e a cell) must have atleast 5 expected counts.
+
+The above conditions are satisfied by the dataset("finaldata") used for this study.It has 23999 ramdomly sampled cases.Hence, the sample size is large enough to meet the criteria of Independence and Sample Size.
+
+
+
+####Method Used , How and Why:
+
+The data passes the conditions required for Chi-Square test of independence. So,we use this theoretical method to evaluate relationship between the two categorical variables.
+
+In this methodology, we evaluate the relationship between two categorical variables(at least one with more than 2 levels) to determine if they are independent or dependent.The statistic calculated here will be chi-square test statistic.
+
+The formula to calculate chi-square test statistic in R is :
+
+```{r}
+chisq.test(graphdata)
+```
+
+
+We can evaluate the hypothesis by :
+1.Quantifying how different the observed counts are from the expected counts.
+2.We want to note that large deviations from what would be expected based on sampling variation(chance) alone provide strong evidence for alternate hypothesis.
+
+
+
+####Perform Inference :
+
+
+#####Referring to the contigency table to calculate proportions :
+
+
+```{r}
+xdata<-table(finaldata$news,finaldata$natsoc)
+ydata<-cbind(xdata, RTotal=rowSums(xdata))
+zdata<-rbind(ydata, CTotal=colSums(ydata))
+zdata
+```
+
+
+
+From the above contigency table the following questions can be answered :
+
+**What is overall rate for the respondents reading newspaper daily?**
+
+```{r}
+10496/23999
+```
+
+
+**If infact news and natsoc are independent (i.e Ho is true)how many of the respondents who feel Too Much national spending on social security read newspaper everyday?Also how many of respondents who feel About Right and Too Little national spending on social security read newspaper everyday?**
+
+If we are assuming that Ho is true, that means the opinion on social security spending does not vary by fact that how often does the respondent read newspaper.
+
+So, the overall rate that is calculated above should apply to all opinions on social security spending.
+
+In this case the expected counts for the various cells can be calculated as :
+
+**Too Little**
+
+```{r}
+0.4373516*13672
+```
+
+**About Right**
+
+```{r}
+0.4373516*8843
+```
+
+**Too Much**
+
+```{r}
+0.4373516 * 1484
+```
+
+
+To make sure our calculations are correct, the above values should all add up to 10496
+
+```{r}
+5979.471 + 3867.5 + 649.0298
+```
+
+
+#####Chi-Square test of Independence :
+
+
+Summary statistics of the graphdata contingency table generates the test of independence of all factors :
+
+
+```{r}
+summary(graphdata)
+```
+
+
+So, the Chisq statistic of 222.29 and (5-1)*(3-1) i.e 8 degrees of freedom generates a p-value of 1.261e-43.
+
+The p-value can also be calculated as:
+
+```{r}
+pchisq(222.29,8,lower.tail=FALSE)
+```
+
+**Note** :
+In the above formula, we mentioned lower.tail = FALSE because in chisq test we always want the tail area above the observed chisq statistic.
+
+
+
+####Interpret Results :
+
+
+**Test the hypothesis that how often do the respondents read newspaper and their opinion on national spending on social security are associated at the 5% significance level?** 
+
+We got a pretty small p-value in the above calculation that is lower that 5% significance level.Hence we reject the null hypothesis and favor the alternative.This means that these data provide convincing evidence that media exposure (how often a respondent reads newspaper) and his opinion on national spending on social security are associated.
+
+
+####If applicable, state whether results from various methods agree :
+
+
+Since, this research question is an observational study to test whether there is a relationship between two categorical variables("news" and "natsoc"),only method of Chi-Square test of Independence is used and there is no associated confidence interval.
+
+Moreover,the study focuses on only verifying if there is a dependence between two categorical variables,so ANOVA method for doing inference by proportions is not used here.
+
+
+### Conclusion:
+
+
+The above analysis shows that the residents of United States develop awareness about the functioning and status quo of their society by reading newspaper and this in a way effects their tendency to have any opinion on national spending on social security.
+
+It is a retrospective observational study on data collected between 1972-2012 and we are merely studying association between the two categorical variables "news" and "natsoc".It is possible that there might a causal relationship between the two variables but we are doing an observational study and it is not sufficient to deduce a causal relationship.Also, we should take into account confounding factors like respondents might be watching tv,reading news online through twitter.
+
+In order to ascertain causality between the news and natsoc variables in the dataset, random experimental designs should be conducted where the effect of other confounding factors can be minimised by blocking. 
+
+### References:
+
+
+Smith, Tom W., Michael Hout, and Peter V. Marsden. General Social Survey, 1972-2012 [Cumulative File]. ICPSR34802-v1. Storrs, CT: Roper Center for Public Opinion Research, University of Connecticut /Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributors], 2013-09-11. doi:10.3886/ICPSR34802.v1
+
+Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
+
+Link for loading the gss dataset in R :load(url("http://bit.ly/dasi_gss_data"))
+
+
+
+### Appendix:
+
+
+**Link for required dataset**:
+
+https://s3.amazonaws.com/coursera-uploads/user-44e45b73f82fdfb7aec2ecb8/975821/asst-3/c68200b06b8111e5bcf2831d0f600b83.txt
+
+
